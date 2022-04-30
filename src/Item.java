@@ -4,6 +4,7 @@ public class Item {
     private String description;
     private BigDecimal amount;
     // Category when that's done
+    // Also option for item to be returned
 
     public Item(String description, BigDecimal amount){
         this.description = description;
