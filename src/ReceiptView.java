@@ -95,9 +95,14 @@ public class ReceiptView extends GridPane {
     }
 
     public void update(int rowCount){
+        if(rowCount > this.rowCount){
+            items.addRows(rowCount-this.rowCount);
+        }
+        else{
+            items = new ItemView(rowCount);
+        }
         this.rowCount = rowCount;
-//        items.update(rowCount);
-        itemsContainer.setContent(new ItemView(rowCount));
+        itemsContainer.setContent(items);
     }
 
     public Button getSubmit() {return submit;}

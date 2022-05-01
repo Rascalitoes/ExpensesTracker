@@ -28,39 +28,38 @@ public class ItemView extends GridPane {
             itemPrices.add(new TextField());
             itemPrices.get(i).setPrefWidth(70);
             add(itemPrices.get(i),3,1+i);
-            System.out.println("i = " + i);
         }
 
         setVgap(5);
         setHgap(3);
     }
 
-    public void update(int itemNum){
-        int diff = itemNum - this.currentRows;
-        if(diff >= 0){
-            for (int i = currentRows; i < itemNum; i++) {
-                itemNames.add(new TextField());
-                itemNames.get(i).setPrefWidth(190);
-                add(itemNames.get(i),0,1+i,2,1);
-                itemPrices.add(new TextField());
-                itemPrices.get(i).setPrefWidth(70);
-                add(itemPrices.get(i),3,1+i);
-            }
+    // There's no way to 'unadd' items to the pane :(
+    public void addRows(int itemNum){
+        for (int i = currentRows; i < currentRows+itemNum; i++) {
+            itemNames.add(new TextField());
+            itemNames.get(i).setPrefWidth(190);
+            add(itemNames.get(i),0,1+i,2,1);
+            itemPrices.add(new TextField());
+            itemPrices.get(i).setPrefWidth(70);
+            add(itemPrices.get(i),3,1+i);
         }
-        else{
-            for (int i = currentRows-1; i > itemNum; i--) {
-                itemNames.remove(i);
-                itemPrices.remove(i);
-
-            }
-        }
-        this.currentRows += diff;
+        this.currentRows += itemNum;
     }
 
     public String[] getItemNames() {
-        String[] names = new String[itemNames.size()];
-        for (int i = 0; i < itemNames.size(); i++) {
-            names[i] = itemNames.get(i).getText();
+        // String[] only returns the textfields that have been filled in
+        int validText = 0;
+        for (TextField t: itemNames) {
+            if(t.getText().length() > 0){
+                validText++;
+            }
+        }
+        String[] names = new String[validText];
+        for (int i = 0; i < validText; i++) {
+            if(itemNames.get(i).getText().length() > 0){
+                names[i] = itemNames.get(i).getText();
+            }
         }
         return names;
     }
