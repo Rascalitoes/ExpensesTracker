@@ -1,11 +1,13 @@
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.concurrent.atomic.LongAccumulator;
 
 public class Receipt {
 
     private Card card;
-    private Date date;
+    private LocalDate date;
     private BigDecimal subtotal;
     private BigDecimal total;
     private BigDecimal tax;
@@ -13,7 +15,7 @@ public class Receipt {
     private Store store;
 
     public Receipt(String[] itemNames){
-//        date;
+        date = LocalDate.now();
 //        subtotal;
 //        total;
 //        tax;
@@ -37,6 +39,11 @@ public class Receipt {
     public String toString(){
         return Arrays.toString(items);
     }
+
+    public LocalDate getDate(){return date;}
+    public void setDay(int day){date = date.withDayOfMonth(day);}
+    public void setMonth(int month){date = date.withMonth(month);}
+    public void setYear(int year){date = date.withYear(year);}
 
     //
 //    public Receipt(BigDecimal total, Store store, Date date, Card card){
