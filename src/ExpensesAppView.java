@@ -9,6 +9,9 @@ public class ExpensesAppView extends GridPane {
 
     public ExpensesAppView(){
 
+        ListedView listedView = new ListedView();
+        add(listedView,0,0);
+
         setPadding(new Insets(15, 10, 15, 10));
         setHgap(10);
         setVgap(5);
