@@ -1,13 +1,14 @@
 import java.math.BigDecimal;
 
 public class Item {
-    private String description;
+    private String name;
     private BigDecimal amount;
     // Category when that's done
     // Also option for item to be returned
+    // Basically a K-V Pair
 
     public Item(String description, BigDecimal amount){
-        this.description = description;
+        this.name = description;
         this.amount = amount;
     }
 
@@ -16,7 +17,7 @@ public class Item {
     }
 
     public String toString(){
-        return description + "\t\t" + amount.toString();
+        return name + "\t\t" + amount.toString();
     }
 
 }

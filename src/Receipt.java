@@ -1,3 +1,5 @@
+import javafx.util.Pair;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -11,7 +13,7 @@ public class Receipt {
     private BigDecimal subtotal;
     private BigDecimal total;
     private BigDecimal tax;
-    private String[] items;
+    private Item[] items;
     private Store store;
 
     public Receipt(String[] itemNames){
@@ -19,20 +21,26 @@ public class Receipt {
 //        subtotal;
 //        total;
 //        tax;
-        items = itemNames;
+        items = new Item[itemNames.length];
+        for (int i = 0; i < itemNames.length; i++) {
+            items[i] = new Item(itemNames[i],null);
+        }
 //        store;
     }
 
     public Receipt(String[] itemNames, String[] itemPrices){
-//        date;
+        date = LocalDate.now();
 //        subtotal;
 //        total;
 //        tax;
-        items = itemNames;
+        items = new Item[itemNames.length];
+        for (int i = 0; i < itemNames.length; i++) {
+            items[i] = new Item(itemNames[i],new BigDecimal(itemPrices[i]));
+        }
 //        store;
     }
 
-    public void setItems(String[] items) {
+    public void setItems(Item[] items) {
         this.items = items;
     }
 
