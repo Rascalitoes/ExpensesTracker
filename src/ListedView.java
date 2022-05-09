@@ -24,8 +24,9 @@ public class ListedView extends GridPane {
         TableColumn itemCol = new TableColumn("Items");
         TableColumn subtotalCol = new TableColumn("Subtotal");
         TableColumn totalCol = new TableColumn("Total");
-
         receiptTable.getColumns().addAll(dateCol,storeCol,itemCol,subtotalCol,totalCol);
+
+
 
         setHgap(10);
         setVgap(5);
