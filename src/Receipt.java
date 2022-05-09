@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.atomic.LongAccumulator;
 
-public class Receipt {
+public class Receipt implements java.io.Serializable{
 
     private Card card;
     private LocalDate date;

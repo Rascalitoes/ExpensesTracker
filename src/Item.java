@@ -1,6 +1,6 @@
 import java.math.BigDecimal;
 
-public class Item {
+public class Item implements java.io.Serializable{
     private String name;
     private BigDecimal amount;
     // Category when that's done
