@@ -35,4 +35,5 @@ public class ExpensesAppView extends GridPane {
         setPrefSize(600, 300);
     }
 
+    public Button getAddReceipt() {return addReceipt;}
 }
