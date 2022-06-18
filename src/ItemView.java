@@ -3,6 +3,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ItemView extends GridPane {
 
@@ -47,27 +48,36 @@ public class ItemView extends GridPane {
         this.currentRows += itemNum;
     }
 
-    public String[] getItemNames() {
-        // String[] only returns the textfields that have been filled in
+    // To change: getItems checks for vailidity of both name and price
+    public Item[] getItems(){
         int validText = 0;
         for (TextField t: itemNames) {
             if(t.getText().length() > 0){
                 validText++;
             }
         }
-        String[] names = new String[validText];
+        Item[] items = new Item[validText];
         for (int i = 0; i < validText; i++) {
             if(itemNames.get(i).getText().length() > 0){
-                names[i] = itemNames.get(i).getText();
+                items[i] = new Item(itemNames.get(i).getText(),itemPrices.get(i).getText());
             }
+        }
+        return items;
+    }
+
+    public String[] getItemNames() {
+        // String[] only returns the textfields that have been filled in
+        String[] names = new String[getItems().length];
+        for (int i = 0; i < getItems().length; i++) {
+            names[i] = getItems()[i].getName();
         }
         return names;
     }
 
     public String[] getItemPrices() {
-        String[] prices = new String[itemPrices.size()];
-        for (int i = 0; i < itemPrices.size(); i++) {
-            prices[i] = itemPrices.get(i).getText();
+        String[] prices = new String[getItems().length];
+        for (int i = 0; i < getItems().length; i++) {
+            prices[i] = getItems()[i].getAmount().toString();
         }
         return prices;
     }
