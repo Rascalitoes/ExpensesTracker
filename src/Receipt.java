@@ -23,7 +23,7 @@ public class Receipt implements java.io.Serializable{
 //        tax;
         items = new Item[itemNames.length];
         for (int i = 0; i < itemNames.length; i++) {
-            items[i] = new Item(itemNames[i],null);
+            items[i] = new Item(itemNames[i], (BigDecimal) null);
         }
 //        store;
     }
@@ -46,6 +46,10 @@ public class Receipt implements java.io.Serializable{
 
     public String toString(){
         return Arrays.toString(items);
+    }
+
+    public Item[] getItems() {
+        return items;
     }
 
     public LocalDate getDate(){return date;}

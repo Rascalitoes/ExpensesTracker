@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
 public class ReceiptView extends GridPane {
-    int rowCount;
+    int itemRows;
     ItemView [] itemViews;
     Button submit, add1MoreRows;
     ScrollPane itemsContainer;
@@ -16,8 +16,8 @@ public class ReceiptView extends GridPane {
     ComboBox monthDropdown, dayDropdown, yearDropdown;
 
     public ReceiptView(){
-        rowCount = 5;
-        itemViews = new ItemView[rowCount];
+        itemRows = 5;
+        itemViews = new ItemView[itemRows];
 
         Label storeLabel = new Label("Store Name:");
         add(storeLabel,0,0);
@@ -54,7 +54,7 @@ public class ReceiptView extends GridPane {
         /**************************************/
 
         itemsContainer = new ScrollPane();
-        items = new ItemView(rowCount);
+        items = new ItemView(itemRows);
         itemsContainer.setContent(items);
         itemsContainer.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         itemsContainer.prefWidth(300);
@@ -63,54 +63,54 @@ public class ReceiptView extends GridPane {
 
         add1MoreRows = new Button("+1 Row");
         add1MoreRows.setPrefWidth(300);
-        add(add1MoreRows,0, rowCount +5,3,1);
+        add(add1MoreRows,0, itemRows +5,3,1);
 
         separator = new Separator();
-        add(separator,0, rowCount +6,3,1);
+        add(separator,0, itemRows +6,3,1);
 
         /**************************************/
 
         Label subtotalLabel = new Label("Subtotal:");
         setHalignment(subtotalLabel, HPos.RIGHT);
-        add(subtotalLabel,1, rowCount +7);
+        add(subtotalLabel,1, itemRows +7);
 
         Label totalLabel = new Label("Total:");
         setHalignment(totalLabel, HPos.RIGHT);
-        add(totalLabel,1, rowCount +8);
+        add(totalLabel,1, itemRows +8);
 
         TextField subtotal = new TextField();
         subtotal.setPrefWidth(30);
-        add(subtotal,2, rowCount +7);
+        add(subtotal,2, itemRows +7);
 
         TextField total = new TextField();
         total.setPrefWidth(30);
-        add(total,2, rowCount +8);
+        add(total,2, itemRows +8);
 
         submit = new Button("Save");
         setHalignment(submit,HPos.RIGHT);
-        add(submit,0, rowCount +9,3,1);
+        add(submit,0, itemRows +9,3,1);
 
         Label cardLabel = new Label("Card #");
-        add(cardLabel,0, rowCount +7);
+        add(cardLabel,0, itemRows +7);
 
         ComboBox cards = new ComboBox(FXCollections.observableArrayList("1234,5678".split(",")));
-        add(cards,0, rowCount +8);
+        add(cards,0, itemRows +8);
 
         setPadding(new Insets(15, 10, 15, 10));
         setHgap(10);
         setVgap(5);
-        int height = rowCount * 30 + 270;
+        int height = itemRows * 30 + 270;
         setPrefSize(300, height);
     }
 
     public void update(int rowCount){
-        if(rowCount > this.rowCount){
-            items.addRows(rowCount-this.rowCount);
+        if(rowCount > this.itemRows){
+            items.addRows(rowCount-this.itemRows);
         }
         else{
             items = new ItemView(rowCount);
         }
-        this.rowCount = rowCount;
+        this.itemRows = rowCount;
         itemsContainer.setContent(items);
     }
 
@@ -128,6 +128,7 @@ public class ReceiptView extends GridPane {
     public Button getSubmit() {return submit;}
     public Button getAdd1Row() {return add1MoreRows;}
     public ItemView getItems() {return items;}
+    public int getItemRows() {return itemRows;}
     public ComboBox getDayDropdown() {return dayDropdown;}
     public ComboBox getMonthDropdown() {return monthDropdown;}
     public ComboBox getYearDropdown() {return yearDropdown;}

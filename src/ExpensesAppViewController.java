@@ -4,11 +4,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class ExpensesAppViewController extends Stage {
 
-    ExpensesAppViewController(){
+    ExpensesAppViewController(Connection connection){
         Pane p = new Pane();
         ExpensesAppView mainView = new ExpensesAppView();
         p.getChildren().add(mainView);
@@ -16,7 +18,7 @@ public class ExpensesAppViewController extends Stage {
         mainView.getAddReceipt().setOnAction(
                 new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent actionEvent) {
-                        new ReceiptViewController();
+                        new ReceiptViewController(connection);
                     }
                 }
         );
