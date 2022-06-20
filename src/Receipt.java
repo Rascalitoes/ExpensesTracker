@@ -16,6 +16,13 @@ public class Receipt implements java.io.Serializable{
     private Item[] items;
     private Store store;
 
+    public Receipt(){
+        date = LocalDate.now();
+        subtotal = new BigDecimal("0.00");
+        total = new BigDecimal("0.00");
+        tax = new BigDecimal("0.00");
+    }
+
     public Receipt(String[] itemNames){
         date = LocalDate.now();
 //        subtotal;
@@ -50,6 +57,26 @@ public class Receipt implements java.io.Serializable{
 
     public Item[] getItems() {
         return items;
+    }
+
+    public int getStoreID(){
+        return 0;
+    }
+
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
+
+    public BigDecimal getTax() {
+        return tax;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public int getCardID(){
+        return 0;
     }
 
     public LocalDate getDate(){return date;}
