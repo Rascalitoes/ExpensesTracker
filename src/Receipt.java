@@ -21,6 +21,7 @@ public class Receipt implements java.io.Serializable{
         subtotal = new BigDecimal("0.00");
         total = new BigDecimal("0.00");
         tax = new BigDecimal("0.00");
+        items = new Item[5];
     }
 
     public Receipt(String[] itemNames){
@@ -79,10 +80,21 @@ public class Receipt implements java.io.Serializable{
         return 0;
     }
 
+    public int itemCount(){
+        return items.length;
+    }
+
+    public void increaseItems(int itemCount){
+        items = new Item[itemCount];
+    }
+
     public LocalDate getDate(){return date;}
     public void setDay(int day){date = date.withDayOfMonth(day);}
     public void setMonth(int month){date = date.withMonth(month);}
     public void setYear(int year){date = date.withYear(year);}
+    public int getDay(){return date.getDayOfMonth();}
+    public int getMonth(){return date.getMonthValue();}
+    public int getYear(){return date.getYear();}
 
     //
 //    public Receipt(BigDecimal total, Store store, Date date, Card card){
