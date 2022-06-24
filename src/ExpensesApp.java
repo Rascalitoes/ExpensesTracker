@@ -28,8 +28,32 @@ public class ExpensesApp extends Application {
         }
         catch(SQLException e)
         {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
+        assert c != null;
+        Statement statement = c.createStatement();
+        statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+        statement.addBatch("create table if not exists receipts (" +
+                "id integer primary key autoincrement not null," +
+                "date text," +
+                "store text," +
+                "subtotal numeric," +
+                "total numeric," +
+                "tax numeric," +
+                "card integer" +
+                ")");
+        statement.addBatch("create table if not exists items (" +
+                "receiptID integer," +
+                "name text," +
+                "price numeric" +
+                ")");
+        statement.addBatch("create table if not exists card (" +
+                "fourDigits integer," +
+                "bank text," +
+                "type text" +
+                ")");
+        statement.executeBatch();
         new ExpensesAppViewController(c);
 //        finally
 //        {
