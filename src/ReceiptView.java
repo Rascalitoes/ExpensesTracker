@@ -8,16 +8,14 @@ import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
 public class ReceiptView extends GridPane {
-    int itemRows;
     ItemView [] itemViews;
     Button submit, add1MoreRows;
     ScrollPane itemsContainer;
     ItemView items;
     ComboBox monthDropdown, dayDropdown, yearDropdown;
 
-    public ReceiptView(){
-        itemRows = 5;
-        itemViews = new ItemView[itemRows];
+    public ReceiptView(Receipt receipt){
+        itemViews = new ItemView[receipt.itemCount()];
 
         Label storeLabel = new Label("Store Name:");
         add(storeLabel,0,0);
@@ -35,17 +33,17 @@ public class ReceiptView extends GridPane {
         add(storeName,1,0,3,1);
 
         monthDropdown = new ComboBox(FXCollections.observableArrayList("January,February,March,April,May,June,July,August,September,October,November,December".split(",")));
-        monthDropdown.getSelectionModel().select(LocalDateTime.now().getMonthValue()-1);
+        monthDropdown.getSelectionModel().select(receipt.getMonth()-1);
         add(monthDropdown,0,2);
 
         dayDropdown = new ComboBox(FXCollections.observableArrayList(IntStream.rangeClosed(1, 31).mapToObj(String::valueOf).toArray(String[]::new)));
                 //"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31".split(",")
-        dayDropdown.getSelectionModel().select(LocalDateTime.now().getDayOfMonth()-1);
+        dayDropdown.getSelectionModel().select(receipt.getDay()-1);
         add(dayDropdown,1,2);
 
         yearDropdown = new ComboBox(FXCollections.observableArrayList(IntStream.rangeClosed(2000, LocalDateTime.now().getYear()).map(i -> 2022 - i + 2000).mapToObj(String::valueOf).toArray(String[]::new)));
                 //"2022,2021,2020,2019,2018,2017,2016,2015".split(",")
-        yearDropdown.getSelectionModel().select(Integer.toString(LocalDateTime.now().getYear()));
+        yearDropdown.getSelectionModel().select(Integer.toString(receipt.getYear()));
         add(yearDropdown,2,2);
 
         Separator separator = new Separator();
@@ -54,7 +52,7 @@ public class ReceiptView extends GridPane {
         /**************************************/
 
         itemsContainer = new ScrollPane();
-        items = new ItemView(itemRows);
+        items = new ItemView(receipt.itemCount());
         itemsContainer.setContent(items);
         itemsContainer.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         itemsContainer.prefWidth(300);
@@ -63,60 +61,60 @@ public class ReceiptView extends GridPane {
 
         add1MoreRows = new Button("+1 Row");
         add1MoreRows.setPrefWidth(300);
-        add(add1MoreRows,0, itemRows +5,3,1);
+        add(add1MoreRows,0, receipt.itemCount() +5,3,1);
 
         separator = new Separator();
-        add(separator,0, itemRows +6,3,1);
+        add(separator,0, receipt.itemCount() +6,3,1);
 
         /**************************************/
 
         Label subtotalLabel = new Label("Subtotal:");
         setHalignment(subtotalLabel, HPos.RIGHT);
-        add(subtotalLabel,1, itemRows +7);
+        add(subtotalLabel,1, receipt.itemCount() +7);
 
         Label totalLabel = new Label("Total:");
         setHalignment(totalLabel, HPos.RIGHT);
-        add(totalLabel,1, itemRows +8);
+        add(totalLabel,1, receipt.itemCount() +8);
 
         TextField subtotal = new TextField();
         subtotal.setPrefWidth(30);
-        add(subtotal,2, itemRows +7);
+        add(subtotal,2, receipt.itemCount() +7);
 
         TextField total = new TextField();
         total.setPrefWidth(30);
-        add(total,2, itemRows +8);
+        add(total,2, receipt.itemCount() +8);
 
         submit = new Button("Save");
         setHalignment(submit,HPos.RIGHT);
-        add(submit,0, itemRows +9,3,1);
+        add(submit,0, receipt.itemCount() +9,3,1);
 
         Label cardLabel = new Label("Card #");
-        add(cardLabel,0, itemRows +7);
+        add(cardLabel,0, receipt.itemCount() +7);
 
         ComboBox cards = new ComboBox(FXCollections.observableArrayList("1234,5678".split(",")));
-        add(cards,0, itemRows +8);
+        add(cards,0, receipt.itemCount() +8);
 
         setPadding(new Insets(15, 10, 15, 10));
         setHgap(10);
         setVgap(5);
-        int height = itemRows * 30 + 270;
+        int height = receipt.itemCount() * 30 + 270;
         setPrefSize(300, height);
     }
 
-    public void update(int rowCount){
-        if(rowCount > this.itemRows){
-            items.addRows(rowCount-this.itemRows);
+    public void update(Receipt receipt, int rowCount){
+        if(rowCount > receipt.itemCount()){
+            items.addRows(rowCount-receipt.itemCount());
         }
         else{
             items = new ItemView(rowCount);
         }
-        this.itemRows = rowCount;
+        receipt.increaseItems(rowCount);
         itemsContainer.setContent(items);
     }
 
     public void updateDate(Receipt r){
         System.out.println("'"+monthDropdown.getSelectionModel().getSelectedItem().toString()+"'"+" - "
-        +r.getDate().getDayOfMonth()+" - "+r.getDate().getYear());
+        +r.getDay()+" - "+r.getYear());
 
         int days = r.getDate().lengthOfMonth();
         if(dayDropdown.getSelectionModel().getSelectedIndex() >= days){
@@ -127,8 +125,7 @@ public class ReceiptView extends GridPane {
 
     public Button getSubmit() {return submit;}
     public Button getAdd1Row() {return add1MoreRows;}
-    public ItemView getItems() {return items;}
-    public int getItemRows() {return itemRows;}
+    public Item[] getItems() {return items.getItems();}
     public ComboBox getDayDropdown() {return dayDropdown;}
     public ComboBox getMonthDropdown() {return monthDropdown;}
     public ComboBox getYearDropdown() {return yearDropdown;}

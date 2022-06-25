@@ -18,7 +18,7 @@ public class ExpensesAppViewController extends Stage {
         mainView.getAddReceipt().setOnAction(
                 new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent actionEvent) {
-                        new ReceiptViewController(connection);
+                        new ReceiptViewController(connection, true);
                     }
                 }
         );

@@ -17,17 +17,13 @@ public class ReceiptViewController extends Stage {
 
     ReceiptViewController(Connection c, boolean newReceipt){
         Pane p = new Pane();
-        ReceiptView rView = new ReceiptView();
-        p.getChildren().add(rView);
-
         receipt = new Receipt();
-
+        ReceiptView rView = new ReceiptView(receipt);
+        p.getChildren().add(rView);
         insertOrUpdate = "insert";
         if(!newReceipt){
-            String insertOrUpdate = "update";
+            insertOrUpdate = "update";
         }
-//        receipts = new ArrayList<Receipt>();
-//        receipts.add(new Receipt(rView.getItems().getItemNames()));
 
         this.setTitle("Current Receipt");
         this.setResizable(true);
@@ -37,7 +33,8 @@ public class ReceiptViewController extends Stage {
         rView.getAdd1Row().setOnAction(
                 new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent actionEvent) {
-                        rView.update(rView.getItemRows()+1);
+                        //Need to change this
+                        rView.update(receipt,receipt.itemCount()+1);
                     }
                 }
         );
@@ -81,7 +78,8 @@ public class ReceiptViewController extends Stage {
         rView.getSubmit().setOnAction(
             new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent actionEvent) {
-                    receipt.setItems(rView.getItems().getItems());
+                    receipt.setItems(rView.getItems());
+
                     System.out.println("items rn: " + receipt.toString());
                     PreparedStatement pst;
                     try {
@@ -104,16 +102,17 @@ public class ReceiptViewController extends Stage {
 
                     } catch (SQLException e) {
                         e.printStackTrace();
-                    } finally {
-                        try {
-                            if(c != null){
-                                c.close();
-                            }
-                        }
-                        catch(SQLException e) {
-                            e.printStackTrace();
-                        }
+//                    } finally {
+//                        try {
+//                            if(c != null){
+//                                c.close();
+//                            }
+//                        }
+//                        catch(SQLException e) {
+//                            e.printStackTrace();
+//                        }
                     }
+                    close();
                 }
             }
         );
