@@ -12,7 +12,7 @@ public class ExpensesAppViewController extends Stage {
 
     ExpensesAppViewController(Connection connection){
         Pane p = new Pane();
-        ExpensesAppView mainView = new ExpensesAppView();
+        ExpensesAppView mainView = new ExpensesAppView(connection);
         p.getChildren().add(mainView);
 
         mainView.getAddReceipt().setOnAction(

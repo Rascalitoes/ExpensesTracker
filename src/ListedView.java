@@ -9,9 +9,18 @@ import javafx.scene.layout.Pane;
 import javax.naming.directory.SearchControls;
 import javafx.scene.control.TableColumn;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class ListedView extends GridPane {
 
-    public ListedView(){
+    public ListedView(Connection c){
+        ArrayList<Receipt> receiptArrayList = new ArrayList<Receipt>();
+
         Label searchLabel = new Label("Search:");
         add(searchLabel,0,0);
 
@@ -33,7 +42,17 @@ public class ListedView extends GridPane {
         totalCol.setCellValueFactory(new PropertyValueFactory<Receipt,String>("total"));
         receiptTable.getColumns().addAll(dateCol,storeCol,itemCol,subtotalCol,totalCol);
 
-        receiptTable.setItems(FXCollections.observableArrayList(new Receipt(),new Receipt()));
+        try {
+            Statement statement = c.createStatement();
+            ResultSet rs = statement.executeQuery("select * from receipts");
+            while(rs.next()){
+                receiptArrayList.add(new Receipt(rs.getString("date"), rs.getString("store"), rs.getBigDecimal("subtotal"), rs.getBigDecimal("total"), rs.getBigDecimal("tax")));
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        receiptTable.setItems(FXCollections.observableArrayList(receiptArrayList));
 
         setHgap(10);
         setVgap(5);

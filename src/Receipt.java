@@ -1,10 +1,12 @@
 import javafx.util.Pair;
+import javafx.util.converter.LocalDateStringConverter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.atomic.LongAccumulator;
+import java.util.stream.Stream;
 
 public class Receipt implements java.io.Serializable{
 
@@ -18,11 +20,11 @@ public class Receipt implements java.io.Serializable{
 
     public Receipt(){
         date = LocalDate.now();
+        store = new Store("");
+        items = new Item[5];
         subtotal = new BigDecimal("0.00");
         total = new BigDecimal("0.00");
         tax = new BigDecimal("0.00");
-        items = new Item[5];
-        store = new Store("");
     }
 
     public Receipt(String[] itemNames, String[] itemPrices){
@@ -35,6 +37,14 @@ public class Receipt implements java.io.Serializable{
             items[i] = new Item(itemNames[i],new BigDecimal(itemPrices[i]));
         }
 //        store;
+    }
+
+    public Receipt(String date, String store, BigDecimal subtotal, BigDecimal total, BigDecimal tax){
+        this.date = LocalDate.parse(date);
+        this.store = new Store(store);
+        this.subtotal = subtotal;
+        this.total = total;
+        this.tax = tax;
     }
 
     public void setItems(Item[] items) {

@@ -7,12 +7,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
+import java.sql.Connection;
+
 public class ExpensesAppView extends GridPane {
     Button addReceipt;
 
-    public ExpensesAppView(){
+    public ExpensesAppView(Connection c){
 
-        ListedView listedView = new ListedView();
+        ListedView listedView = new ListedView(c);
         add(listedView,0,0,4,1);
 
         addReceipt = new Button("Add Receipt");
