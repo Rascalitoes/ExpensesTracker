@@ -84,6 +84,9 @@ public class Receipt implements java.io.Serializable{
     }
 
     public int itemCount(){
+        if(items == null){
+            return 0;
+        }
         return items.length;
     }
 

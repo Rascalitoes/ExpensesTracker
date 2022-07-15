@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ListedView extends GridPane {
+    TableView<Receipt> receiptTable;
 
     public ListedView(Connection c){
         ArrayList<Receipt> receiptArrayList = new ArrayList<Receipt>();
@@ -27,7 +28,7 @@ public class ListedView extends GridPane {
         TextField searchBox = new TextField();
         add(searchBox,1,0);
 
-        TableView<Receipt> receiptTable = new TableView<Receipt>();
+        receiptTable = new TableView<Receipt>();
         add(receiptTable,0,1,2,1);
 
         TableColumn dateCol = new TableColumn("Date");
@@ -54,8 +55,11 @@ public class ListedView extends GridPane {
 
         receiptTable.setItems(FXCollections.observableArrayList(receiptArrayList));
 
+
         setHgap(10);
         setVgap(5);
     }
+
+    public TableView<Receipt> getListModel() {return receiptTable;}
 
 }

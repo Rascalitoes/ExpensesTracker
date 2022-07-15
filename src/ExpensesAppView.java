@@ -3,6 +3,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -11,10 +12,12 @@ import java.sql.Connection;
 
 public class ExpensesAppView extends GridPane {
     Button addReceipt;
+    ListedView listedView;
+
 
     public ExpensesAppView(Connection c){
 
-        ListedView listedView = new ListedView(c);
+        listedView = new ListedView(c);
         add(listedView,0,0,4,1);
 
         addReceipt = new Button("Add Receipt");
@@ -38,4 +41,5 @@ public class ExpensesAppView extends GridPane {
     }
 
     public Button getAddReceipt() {return addReceipt;}
+    public TableView<Receipt> getListView() {return listedView.getListModel();}
 }

@@ -15,13 +15,13 @@ public class ReceiptViewController extends Stage {
 //    private ArrayList<Receipt> receipts;
 //    private int currReceipt;
 
-    ReceiptViewController(Connection c, boolean newReceipt){
+    ReceiptViewController(Connection c, Receipt r){
         Pane p = new Pane();
-        receipt = new Receipt();
+        receipt = r;
         ReceiptView rView = new ReceiptView(receipt);
         p.getChildren().add(rView);
         insertOrUpdate = "insert";
-        if(!newReceipt){
+        if(receipt != null){
             insertOrUpdate = "update";
         }
 
