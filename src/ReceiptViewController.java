@@ -83,13 +83,13 @@ public class ReceiptViewController extends Stage {
                     System.out.println("items rn: " + receipt.toString());
                     PreparedStatement pst;
                     try {
-                        pst = c.prepareStatement(insertOrUpdate + " into receipts(date,store,subtotal,total,tax,card) values(?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+                        pst = c.prepareStatement( "insert into receipts(date,store,subtotal,total,tax,card) values(?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
                         pst.setString(1, receipt.getDate().toString());
                         pst.setInt(2, receipt.getStoreID());
                         pst.setBigDecimal(3, receipt.getSubtotal());
-                        pst.setBigDecimal(3, receipt.getTotal());
-                        pst.setBigDecimal(3, receipt.getTax());
-                        pst.setInt(3, receipt.getCardID());
+                        pst.setBigDecimal(4, receipt.getTotal());
+                        pst.setBigDecimal(5, receipt.getTax());
+                        pst.setInt(6, receipt.getCardID());
                         pst.executeUpdate();
                         ResultSet rs = pst.getGeneratedKeys();
                         System.out.println(rs.getInt(1));
